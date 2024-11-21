@@ -1,9 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import { useForm, Controller } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { motion, AnimatePresence } from "framer-motion"
-import { Loader2, Send, CheckCircle, Mail, Phone, Home, MessageSquare, FileText, AlertCircle } from 'lucide-react'
+import { Loader2, Send, CheckCircle, Mail, Phone, Home, MessageSquare } from 'lucide-react'
 
 import { Button } from "@/components/ui/button"
 import {
@@ -17,30 +17,20 @@ import {
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
-import {Switch} from "@/components/ui/switch"
 
 type FormData = {
   email: string
   phone: string
   address: string
   message: string
-  category: string
-  priority: string
-  attachFile: boolean
 }
 
-const categories = [
-  "Technical Support",
-  "Billing Inquiry",
-  "Feature Request",
-  "General Question",
-  "Other",
-]
+type ToastFunction = ReturnType<typeof useToast>['toast'];
 
 export default function AdvancedSupportForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
-  const {toast} = useToast()
+  const { toast } = useToast() as { toast: ToastFunction };
 
   const form = useForm<FormData>({
     defaultValues: {
@@ -48,7 +38,6 @@ export default function AdvancedSupportForm() {
       phone: "",
       address: "",
       message: "",
-      attachFile: false,
     },
   })
 
@@ -62,7 +51,8 @@ export default function AdvancedSupportForm() {
       title: "Support request submitted",
       description: "We'll get back to you as soon as possible.",
     })
-    console.log(data)
+    // Use a logging utility instead of console.log in production
+    // logger.info('Support form submitted', data);
   }
 
   const resetForm = () => {
@@ -154,8 +144,6 @@ export default function AdvancedSupportForm() {
                         </FormItem>
                       )}
                     />
-            
-            
                     <FormField
                       control={form.control}
                       name="message"
@@ -177,7 +165,6 @@ export default function AdvancedSupportForm() {
                         </FormItem>
                       )}
                     />
-
                     <Button type="submit" className="w-full" disabled={isSubmitting}>
                       {isSubmitting ? (
                         <>
@@ -217,4 +204,3 @@ export default function AdvancedSupportForm() {
     </div>
   )
 }
-
